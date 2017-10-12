@@ -24,11 +24,14 @@
 package io.github.mazuh.csvcreator;
 
 import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
+import javafx.geometry.Insets;
+import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.layout.StackPane;
+import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 /**
@@ -37,28 +40,45 @@ import javafx.stage.Stage;
  */
 public class CSVCreator extends Application {
     
-    @Override
-    public void start(Stage primaryStage) {
-        primaryStage.setTitle("CSV Creator <mazuh@ufrn.edu.br>");
+    private final TableView table = new TableView();
 
-        Button btn = new Button();
-        btn.setText("Say 'Hello World'");
-        btn.setOnAction((ActionEvent event) -> {
-            System.out.println("Hello World!");
-        });
-        
-        StackPane root = new StackPane();
-        root.getChildren().add(btn);
-        
-        primaryStage.setScene(new Scene(root, 800, 600));
-        primaryStage.show();
-    }
-
+    
     /**
-     * @param args the command line arguments
+     * Main method, initializing the whole program.
+     * @param args are being ignored
      */
     public static void main(String[] args) {
         launch(args);
+    }
+    
+    
+    @Override
+    public void start(Stage stage) {
+        Scene scene = new Scene(new Group());
+        stage.setTitle("CSV Creator v1.0.0 <mazuh@ufrn.edu.br>");
+        stage.setWidth(800);
+        stage.setHeight(600);
+ 
+        Label h1 = new Label("CSV Editor");
+        h1.setFont(new Font("Arial", 20));
+ 
+        this.table.setEditable(true);
+ 
+        TableColumn col1 = new TableColumn("col_1");
+        TableColumn col2 = new TableColumn("col_2");
+        TableColumn col3 = new TableColumn("col_3");
+        
+        this.table.getColumns().addAll(col1, col2, col3);
+ 
+        VBox verticalBox = new VBox();
+        verticalBox.setSpacing(5);
+        verticalBox.setPadding(new Insets(10, 0, 0, 10));
+        verticalBox.getChildren().addAll(h1, this.table);
+        
+        ((Group) scene.getRoot()).getChildren().addAll(verticalBox);
+ 
+        stage.setScene(scene);
+        stage.show();
     }
     
 }

@@ -56,7 +56,7 @@ public class CSVCreator extends Application {
     @Override
     public void start(Stage stage) {
         Scene scene = new Scene(new Group());
- 
+
         Label h1 = new Label("CSV Editor");
         h1.setFont(new Font("Arial", 20));
  
@@ -82,6 +82,7 @@ public class CSVCreator extends Application {
         ((Group) scene.getRoot()).getChildren().addAll(verticalBox);
  
         stage.setTitle("CSV Creator v1.0.0 <mazuh@ufrn.edu.br>");
+        stage.setResizable(false);
         stage.setScene(scene);
         stage.show();
     }

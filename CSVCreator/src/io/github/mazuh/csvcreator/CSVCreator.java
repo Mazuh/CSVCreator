@@ -23,15 +23,20 @@
  */
 package io.github.mazuh.csvcreator;
 
+import java.util.ArrayList;
+import java.util.List;
 import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
+import javafx.scene.control.Button;
 import javafx.scene.control.TableView;
-import static javafx.scene.control.TableView.CONSTRAINED_RESIZE_POLICY;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
+import javafx.scene.layout.HBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
@@ -56,35 +61,45 @@ public class CSVCreator extends Application {
     @Override
     public void start(Stage stage) {
         Scene scene = new Scene(new Group());
-
+        
+        VBox fullBox = new VBox();
+        fullBox.setSpacing(5);
+        fullBox.setPadding(new Insets(20, 20, 20, 20));
+        
+        // header
+ 
         Label h1 = new Label("CSV Editor");
         h1.setFont(new Font("Arial", 20));
- 
-        this.table.setEditable(true);
+        
+        Button addBtn = new Button("Add");
+        
+        HBox headerBox = new HBox();
+        headerBox.setSpacing(10);
+        headerBox.getChildren().addAll(h1, addBtn);
 
-        this.table.getColumns().addAll(
-            new TableColumn("hour"),
-            new TableColumn("min1"),
-            new TableColumn("min2"),
-            new TableColumn("min3"),
-            new TableColumn("min4"),
-            new TableColumn("min5"),
-            new TableColumn("min6")
-        );
+        // body
         
-        this.table.setColumnResizePolicy(CONSTRAINED_RESIZE_POLICY);
- 
-        VBox verticalBox = new VBox();
-        verticalBox.setSpacing(5);
-        verticalBox.setPadding(new Insets(20, 20, 20, 20));
-        verticalBox.getChildren().addAll(h1, this.table);
+        TextField field1 = new TextField();
+        field1.setPromptText("field1");
         
-        ((Group) scene.getRoot()).getChildren().addAll(verticalBox);
+        TextField field2 = new TextField();
+        field2.setPromptText("field2");
+        
+        HBox rowBox = new HBox();
+        rowBox.setSpacing(2);
+        rowBox.getChildren().addAll(field1);
+        rowBox.getChildren().addAll(field2);
  
+        // assembling
+        
+        fullBox.getChildren().addAll(headerBox, rowBox);
+        ((Group) scene.getRoot()).getChildren().addAll(fullBox);
+        
         stage.setTitle("CSV Creator v1.0.0 <mazuh@ufrn.edu.br>");
         stage.setResizable(false);
         stage.setScene(scene);
         stage.show();
     }
+    
     
 }

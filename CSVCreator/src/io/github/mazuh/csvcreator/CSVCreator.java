@@ -30,6 +30,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import static javafx.scene.control.TableView.CONSTRAINED_RESIZE_POLICY;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
@@ -55,28 +56,32 @@ public class CSVCreator extends Application {
     @Override
     public void start(Stage stage) {
         Scene scene = new Scene(new Group());
-        stage.setTitle("CSV Creator v1.0.0 <mazuh@ufrn.edu.br>");
-        stage.setWidth(800);
-        stage.setHeight(600);
  
         Label h1 = new Label("CSV Editor");
         h1.setFont(new Font("Arial", 20));
  
         this.table.setEditable(true);
- 
-        TableColumn col1 = new TableColumn("col_1");
-        TableColumn col2 = new TableColumn("col_2");
-        TableColumn col3 = new TableColumn("col_3");
+
+        this.table.getColumns().addAll(
+            new TableColumn("hour"),
+            new TableColumn("min1"),
+            new TableColumn("min2"),
+            new TableColumn("min3"),
+            new TableColumn("min4"),
+            new TableColumn("min5"),
+            new TableColumn("min6")
+        );
         
-        this.table.getColumns().addAll(col1, col2, col3);
+        this.table.setColumnResizePolicy(CONSTRAINED_RESIZE_POLICY);
  
         VBox verticalBox = new VBox();
         verticalBox.setSpacing(5);
-        verticalBox.setPadding(new Insets(10, 0, 0, 10));
+        verticalBox.setPadding(new Insets(20, 20, 20, 20));
         verticalBox.getChildren().addAll(h1, this.table);
         
         ((Group) scene.getRoot()).getChildren().addAll(verticalBox);
  
+        stage.setTitle("CSV Creator v1.0.0 <mazuh@ufrn.edu.br>");
         stage.setScene(scene);
         stage.show();
     }

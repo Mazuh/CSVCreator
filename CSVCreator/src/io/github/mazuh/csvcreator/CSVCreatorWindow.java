@@ -45,7 +45,7 @@ import javax.swing.JOptionPane;
  *
  * @author mazuh
  */
-public class CSVCreator extends Application {
+public class CSVCreatorWindow extends Application {
 
     final static List<String> COLUMNS_NAME = new ArrayList<>();
     
@@ -96,7 +96,7 @@ public class CSVCreator extends Application {
         HBox rowBox = new HBox();
         rowBox.setSpacing(2);
         
-        for (String columnName : CSVCreator.COLUMNS_NAME) {
+        for (String columnName : CSVCreatorWindow.COLUMNS_NAME) {
             TextField field = new TextField();
             field.setPromptText(columnName);
             rowBox.getChildren().add(field);

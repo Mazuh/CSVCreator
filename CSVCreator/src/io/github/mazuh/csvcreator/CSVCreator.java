@@ -23,6 +23,7 @@
  */
 package io.github.mazuh.csvcreator;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 import javafx.application.Application;
@@ -33,27 +34,40 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.Button;
-import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author mazuh
  */
 public class CSVCreator extends Application {
-    
-    private final TableView table = new TableView();
 
+    final static List<String> COLUMNS_NAME = new ArrayList<>();
     
     /**
      * Main method, initializing the whole program.
-     * @param args are being ignored
+     * @param args are being used for JavaFX purposes
      */
     public static void main(String[] args) {
+        try {
+            int colQtt = Integer.parseInt(JOptionPane.showInputDialog("How many columns?"));
+            for (int i = 0; i < colQtt; i++){
+                String cname = JOptionPane.showInputDialog("#" + (i+1) + " column's name:");
+                if (cname == null)
+                    throw new NullPointerException();
+                else
+                    COLUMNS_NAME.add(cname);
+            }
+        } catch(NumberFormatException | NullPointerException e){
+            JOptionPane.showMessageDialog(null, "Canceled by user.", "", JOptionPane.INFORMATION_MESSAGE);
+            System.exit(0);
+        }
+        
         launch(args);
     }
     
@@ -71,7 +85,7 @@ public class CSVCreator extends Application {
         Label h1 = new Label("CSV Editor");
         h1.setFont(new Font("Arial", 20));
         
-        Button addBtn = new Button("Add");
+        Button addBtn = new Button("+ Row");
         
         HBox headerBox = new HBox();
         headerBox.setSpacing(10);
@@ -79,16 +93,14 @@ public class CSVCreator extends Application {
 
         // body
         
-        TextField field1 = new TextField();
-        field1.setPromptText("field1");
-        
-        TextField field2 = new TextField();
-        field2.setPromptText("field2");
-        
         HBox rowBox = new HBox();
         rowBox.setSpacing(2);
-        rowBox.getChildren().addAll(field1);
-        rowBox.getChildren().addAll(field2);
+        
+        for (String columnName : CSVCreator.COLUMNS_NAME) {
+            TextField field = new TextField();
+            field.setPromptText(columnName);
+            rowBox.getChildren().add(field);
+        }
  
         // assembling
         
@@ -100,6 +112,5 @@ public class CSVCreator extends Application {
         stage.setScene(scene);
         stage.show();
     }
-    
     
 }

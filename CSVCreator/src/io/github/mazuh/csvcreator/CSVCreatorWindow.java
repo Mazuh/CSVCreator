@@ -23,6 +23,9 @@
  */
 package io.github.mazuh.csvcreator;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
@@ -38,6 +41,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Font;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javax.swing.JOptionPane;
 
@@ -48,7 +52,7 @@ import javax.swing.JOptionPane;
  */
 public class CSVCreatorWindow extends Application {
 
-    final static List<String> COLUMNS_NAME = new ArrayList<>();
+    private static CSV csv;
     
     /**
      * Main method, asks for some parameters and .
@@ -56,14 +60,34 @@ public class CSVCreatorWindow extends Application {
      */
     public static void main(String[] args) {
         try {
-            int colQtt = Integer.parseInt(JOptionPane.showInputDialog("How many columns?"));
-            for (int i = 0; i < colQtt; i++){
-                String cname = JOptionPane.showInputDialog("#" + (i+1) + " column's name:");
-                if (cname == null)
+            int newOption = JOptionPane.showConfirmDialog(null, 
+                    "Create a new CSV?\n\n(Choose 'no' to open an existent file.)");
+            
+            switch (newOption) {
+                case JOptionPane.YES_OPTION:
+                    List<String> cnames = new ArrayList<>();
+                    
+                    int colQtt = Integer.parseInt(JOptionPane.showInputDialog("How many columns?"));
+                    
+                    for (int i = 0; i < colQtt; i++){
+                        String cname = JOptionPane.showInputDialog("#" + (i+1) + " column's name:");
+                        if (cname == null)
+                            throw new NullPointerException();
+                        else
+                            cnames.add(cname);
+                    }
+                    
+                    csv = new CSV(cnames);
+                    break;
+                    
+                case JOptionPane.NO_OPTION:
+                    csv = null;
+                    break;
+                
+                default:
                     throw new NullPointerException();
-                else
-                    COLUMNS_NAME.add(cname);
             }
+            
         } catch(NumberFormatException | NullPointerException e){
             JOptionPane.showMessageDialog(null, "Canceled by user.", "", JOptionPane.INFORMATION_MESSAGE);
             System.exit(0);
@@ -76,6 +100,20 @@ public class CSVCreatorWindow extends Application {
     @Override
     public void start(Stage stage) {
         Scene scene = new Scene(new Group());
+        
+        if (csv == null){
+            try{
+                FileChooser fileChooser = new FileChooser();
+                fileChooser.setTitle("Open a CSV file.");
+                csv = CSV.load(fileChooser.showOpenDialog(stage).getAbsolutePath());
+            } catch(IOException e){
+                JOptionPane.showMessageDialog(null, "Failed to load such file.", "", JOptionPane.ERROR_MESSAGE);
+                System.exit(1);
+            } catch(NullPointerException e){
+                JOptionPane.showMessageDialog(null, "You asked to load CSV file and didn't provide one.", "", JOptionPane.ERROR_MESSAGE);
+                System.exit(1);
+            }
+        }
         
         VBox fullBox = new VBox();
         fullBox.setSpacing(5);
@@ -97,7 +135,7 @@ public class CSVCreatorWindow extends Application {
         HBox rowBox = new HBox();
         rowBox.setSpacing(2);
         
-        for (String columnName : CSVCreatorWindow.COLUMNS_NAME) {
+        for (String columnName : csv.getHeaderRow()) {
             TextField field = new TextField();
             field.setPromptText(columnName);
             rowBox.getChildren().add(field);

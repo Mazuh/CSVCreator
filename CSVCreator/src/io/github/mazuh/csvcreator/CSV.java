@@ -55,6 +55,17 @@ public class CSV {
     }
     
     /**
+     * Create an instance of a Comma Separated Value file (unpopulated fields).
+     *
+     * @param headerRow list of titles for each column
+     */
+    public CSV(List<String> headerRow){
+        this.headerRow = (ArrayList<String>) headerRow;
+        this.valuesRows = new ArrayList<>();
+    }
+    
+    
+    /**
      * Getter for headerRow.
      * @return list of titles for each column
      */
@@ -69,6 +80,7 @@ public class CSV {
     public List<List<String>> getValuesRows() {
         return valuesRows;
     }
+    
     
     /** 
      * Factory method for CSV from a persisted file.
@@ -117,6 +129,7 @@ public class CSV {
             return new CSV(header, body);
         }
     }
+    
     
     /**
      * Persist an instance of CSV into a path.

@@ -55,12 +55,24 @@ public class CSV {
     }
     
     /**
-     * Create an instance of a Comma Separated Value file (unpopulated fields).
+     * Create an instance of a CSV interface file (unpopulated body).
      *
      * @param headerRow list of titles for each column
      */
     public CSV(List<String> headerRow){
         this.headerRow = (ArrayList<String>) headerRow;
+        this.valuesRows = new ArrayList<>();
+    }
+
+    /**
+     * Create an instance of a CSV interface (unpopulated at all, column quantity set but empty header).
+     *
+     * @param colQtt for the quantity of columns headers to initialize
+     */
+    public CSV(int colQtt) {
+        this.headerRow = new ArrayList<>(colQtt);
+        for (int i = 0; i < colQtt; i++)
+            headerRow.add("");
         this.valuesRows = new ArrayList<>();
     }
     

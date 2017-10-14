@@ -57,23 +57,12 @@ public class CSVCreatorWindow extends Application {
     public static void main(String[] args) {
         try {
             int newOption = JOptionPane.showConfirmDialog(null, 
-                    "Create a new CSV?\n\n(Choose 'no' to open an existent file.)");
+                    "Create a new CSV?\n\n(Choose 'yes' for a new blank CSV, or 'no' to open an existent file.)");
             
             switch (newOption) {
                 case JOptionPane.YES_OPTION:
-                    List<String> cnames = new ArrayList<>();
-                    
                     int colQtt = Integer.parseInt(JOptionPane.showInputDialog("How many columns?"));
-                    
-                    for (int i = 0; i < colQtt; i++){
-                        String cname = JOptionPane.showInputDialog("#" + (i+1) + " column's name:");
-                        if (cname == null)
-                            throw new NullPointerException();
-                        else
-                            cnames.add(cname);
-                    }
-                    
-                    csv = new CSV(cnames);
+                    csv = new CSV(colQtt);
                     break;
                     
                 case JOptionPane.NO_OPTION:
@@ -152,7 +141,7 @@ public class CSVCreatorWindow extends Application {
         // body
         
         rowsVBox.setSpacing(2);
-        bodyScrollContainer.setPadding(new Insets(10, 2, 2, 2));
+        bodyScrollContainer.setPadding(new Insets(4, 2, 2, 2));
         bodyScrollContainer.setMaxHeight(475);
         bodyScrollContainer.setContent(rowsVBox);
         windowVBox.getChildren().add(bodyScrollContainer);

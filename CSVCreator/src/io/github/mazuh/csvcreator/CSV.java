@@ -65,7 +65,7 @@ public class CSV {
     }
 
     /**
-     * Create an instance of a CSV interface (unpopulated at all, column quantity set but empty header).
+     * Create an instance of a CSV interface (unpopulated body, but header initialized with empty strings).
      *
      * @param colQtt for the quantity of columns headers to initialize
      */
@@ -73,6 +73,14 @@ public class CSV {
         this.headerRow = new ArrayList<>(colQtt);
         for (int i = 0; i < colQtt; i++)
             headerRow.add("");
+        this.valuesRows = new ArrayList<>();
+    }
+    
+    /**
+     * Create an instance of a CSV interface file (unpopulated at all).
+     */
+    public CSV(){
+        this.headerRow = new ArrayList<>();
         this.valuesRows = new ArrayList<>();
     }
     

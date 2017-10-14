@@ -23,12 +23,17 @@
  */
 package io.github.mazuh.csvcreator;
 
+import java.awt.HeadlessException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.application.Application;
+import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.Button;
@@ -123,9 +128,10 @@ public class CSVCreatorWindow extends Application {
         h1.setFont(new Font("Arial", 20));
         
         Button newRowBtn = new Button("+ Row");
+        Button saveBtn = new Button("Save");
         
         topperHBox.setSpacing(10);
-        topperHBox.getChildren().addAll(h1, newRowBtn);
+        topperHBox.getChildren().addAll(h1, newRowBtn, saveBtn);
         
         windowVBox.getChildren().add(topperHBox);
         
@@ -157,6 +163,37 @@ public class CSVCreatorWindow extends Application {
 
         newRowBtn.setOnAction((event) -> {
             addNewRow(rowsVBox);
+        });
+        
+        saveBtn.setOnAction((event) -> {
+            
+            CSV newCsv = new CSV();
+            
+            for (Node field : headerHBox.getChildren()){
+               newCsv.getHeaderRow().add(((TextField) field).getText());
+            }
+            
+            for (Node rowHBox : rowsVBox.getChildren()){
+                List<String> row = new ArrayList<>();
+                for (Node field : ((HBox) rowHBox).getChildren()){
+                    row.add(((TextField) field).getText());
+                }
+                newCsv.getValuesRows().add(row);
+            }
+                        
+            try {
+                FileChooser fileChooser = new FileChooser();
+                fileChooser.setTitle("Saving a CSV file...");
+                CSV.save(newCsv, fileChooser.showSaveDialog(stage).getAbsolutePath());
+                csv = newCsv;
+                JOptionPane.showMessageDialog(null, "Successfully saved.");
+            } catch (IOException e) {
+                JOptionPane.showMessageDialog(null, "Erro ao salvar o arquivo.", "", JOptionPane.ERROR_MESSAGE);
+            } catch (HeadlessException e){
+                JOptionPane.showMessageDialog(null, "Não há suporte para isso.", "", JOptionPane.ERROR_MESSAGE);    
+            } catch (Exception e){
+                JOptionPane.showMessageDialog(null, "Não salvou o arquivo.", "", JOptionPane.ERROR_MESSAGE);    
+            }
         });
         
         stage.setTitle("CSV Creator v1.0.0 <mazuh@ufrn.edu.br>");

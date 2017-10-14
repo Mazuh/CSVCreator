@@ -93,7 +93,7 @@ public class CSV {
             if (row != null && (cells = row.split(",")).length != 0){
                 for (int i = 0; i < cells.length; i++){
                     if (cells[i].charAt(0) == '"' && cells[i].charAt(cells[i].length()-1) == '"'){
-                        cells[i] = cells[i].substring(1, cells[i].length()-2);
+                        cells[i] = cells[i].substring(1, cells[i].length()-1);
                     }
                 }
                 
@@ -107,7 +107,7 @@ public class CSV {
                 cells = row.split(",");
                 for (int i = 0; i < cells.length; i++){
                     if (cells[i].charAt(0) == '"' && cells[i].charAt(cells[i].length()-1) == '"'){
-                        cells[i] = cells[i].substring(1, cells[i].length()-2);
+                        cells[i] = cells[i].substring(1, cells[i].length()-1);
                     }
                 }
                 body.add(Arrays.asList(cells));

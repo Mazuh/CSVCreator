@@ -42,7 +42,8 @@ import javafx.stage.Stage;
 import javax.swing.JOptionPane;
 
 /**
- *
+ * Main class, the GUI to CSV Creator.
+ * 
  * @author mazuh
  */
 public class CSVCreatorWindow extends Application {
@@ -50,8 +51,8 @@ public class CSVCreatorWindow extends Application {
     final static List<String> COLUMNS_NAME = new ArrayList<>();
     
     /**
-     * Main method, initializing the whole program.
-     * @param args are being used for JavaFX purposes
+     * Main method, asks for some parameters and .
+     * @param args are being used for JavaFX purposes (not user)
      */
     public static void main(String[] args) {
         try {

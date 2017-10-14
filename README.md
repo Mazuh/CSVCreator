@@ -10,4 +10,8 @@ Java 8 (Oracle SDK) with JavaFX jar included via Netbean's project (and, btw, I'
 
 ## Distribution
 
-Download the latest .jar on [releases page](https://github.com/Mazuh/CSVCreator/releases).
+Download the latest .jar on [releases page](https://github.com/Mazuh/CSVCreator/releases). You must, of course, have an updated Java environment installed.
+
+Try to open it using a file browser (GUI) by selecting "Open with" and then "Oracle Java 8 Runtime (JRE)".
+Or you can use your terminal (CLI) changing directory to find the downloaded jar and running ```java -jar ./CSVCreator.jar``` 
+to open it.

@@ -107,11 +107,14 @@ public class CSVCreatorWindow extends Application {
                 fileChooser.setTitle("Open a CSV file.");
                 csv = CSV.load(fileChooser.showOpenDialog(stage).getAbsolutePath());
             } catch(IOException e){
-                JOptionPane.showMessageDialog(null, "Failed to load such file.", "", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Failed to read such file.", "", JOptionPane.ERROR_MESSAGE);
                 System.exit(1);
             } catch(NullPointerException e){
                 JOptionPane.showMessageDialog(null, "You asked to load CSV file and didn't provide one.", "", JOptionPane.ERROR_MESSAGE);
                 System.exit(1);
+            } catch(Exception e){
+                JOptionPane.showMessageDialog(null, "Unknown error while trying to read this so-called CSV file.", "", JOptionPane.ERROR_MESSAGE);
+                System.exit(1);    
             }
         }
         

@@ -54,12 +54,18 @@ public class CSV {
         this.valuesRows = (ArrayList<List<String>>) valuesRows;
     }
     
-    
+    /**
+     * Getter for headerRow.
+     * @return list of titles for each column
+     */
     public List<String> getHeaderRow() {
         return headerRow;
     }
 
-    
+    /**
+     * Getter for headerRow.
+     * @return list of lists where each of them is a row of values
+     */
     public List<List<String>> getValuesRows() {
         return valuesRows;
     }

@@ -68,7 +68,7 @@ public class Test {
             System.out.println("TRYING TO LOAD FROM THE SAME PATH...");
             CSV loaded = CSV.load(path);
             System.out.println("INSTANCE LOADED. OUTPUT:");
-            Test.print_testing_csv(csv);
+            Test.print_testing_csv(loaded);
  
             System.out.println("\nDONE.");
             

@@ -36,6 +36,7 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -133,7 +134,8 @@ public class CSVCreatorWindow extends Application {
         headerHBox.setSpacing(2);
         
         for (String columnName : csv.getHeaderRow()) {
-            headerHBox.getChildren().add(new TextField(columnName));
+            TextField field = new TextField(columnName);
+            headerHBox.getChildren().add(field);
         }
         
         windowVBox.getChildren().add(headerHBox);
@@ -146,19 +148,15 @@ public class CSVCreatorWindow extends Application {
         bodyScrollContainer.setContent(rowsVBox);
         windowVBox.getChildren().add(bodyScrollContainer);
         
+        for (List<String> valuesRow : csv.getValuesRows())
+            addNewRow(rowsVBox, valuesRow);
+
         // all into scene
         
         ((Group) scene.getRoot()).getChildren().add(windowVBox);
 
         newRowBtn.setOnAction((event) -> {
-            HBox newRowHBox = new HBox();
-            newRowHBox.setSpacing(2);
-            for (String columnName : csv.getHeaderRow()) {
-                TextField emptyField = new TextField();
-                emptyField.setPromptText(columnName);
-                newRowHBox.getChildren().add(emptyField);
-            }
-            rowsVBox.getChildren().add(newRowHBox);
+            addNewRow(rowsVBox);
         });
         
         stage.setTitle("CSV Creator v1.0.0 <mazuh@ufrn.edu.br>");
@@ -166,6 +164,31 @@ public class CSVCreatorWindow extends Application {
         stage.setResizable(false);
         stage.setScene(scene);
         stage.show();
+    }
+    
+    
+    private void addNewRow(Pane container){
+        addNewRow(container, null);
+    }
+    
+    private void addNewRow(Pane container, List<String> values){
+        HBox newRowHBox = new HBox();
+        newRowHBox.setSpacing(2);
+        
+        int i = 0;
+        
+        for (String columnName : csv.getHeaderRow()) {
+            String value = (values != null && i < values.size()) ? values.get(i) : "";
+            i++;
+            
+            TextField field = new TextField(value);
+            field.setPromptText(columnName);
+            field.setStyle("-fx-font-style: italic;");
+            
+            newRowHBox.getChildren().add(field);
+        }
+        
+        container.getChildren().add(newRowHBox);
     }
     
 }

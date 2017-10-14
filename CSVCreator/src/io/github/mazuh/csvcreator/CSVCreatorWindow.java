@@ -23,20 +23,16 @@
  */
 package io.github.mazuh.csvcreator;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.Button;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.scene.layout.HBox;
@@ -117,39 +113,67 @@ public class CSVCreatorWindow extends Application {
                 System.exit(1);    
             }
         }
+
+        // all containers
         
-        VBox fullBox = new VBox();
-        fullBox.setSpacing(5);
-        fullBox.setPadding(new Insets(20, 20, 20, 20));
+        VBox windowVBox = new VBox();
         
-        // header
+        HBox topperHBox = new HBox();
+        HBox headerHBox = new HBox();
+        
+        ScrollPane bodyScrollContainer = new ScrollPane();
+        VBox rowsVBox = new VBox();
+        
+        windowVBox.setSpacing(5);
+        windowVBox.setPadding(new Insets(20, 20, 20, 20));
+        
+        // topper
  
         Label h1 = new Label("CSV Editor");
         h1.setFont(new Font("Arial", 20));
         
-        Button addBtn = new Button("+ Row");
+        Button newRowBtn = new Button("+ Row");
         
-        HBox headerBox = new HBox();
-        headerBox.setSpacing(10);
-        headerBox.getChildren().addAll(h1, addBtn);
-
-        // body
+        topperHBox.setSpacing(10);
+        topperHBox.getChildren().addAll(h1, newRowBtn);
         
-        HBox rowBox = new HBox();
-        rowBox.setSpacing(2);
+        windowVBox.getChildren().add(topperHBox);
+        
+        // header
+        
+        headerHBox.setSpacing(2);
         
         for (String columnName : csv.getHeaderRow()) {
-            TextField field = new TextField();
-            field.setPromptText(columnName);
-            rowBox.getChildren().add(field);
+            headerHBox.getChildren().add(new TextField(columnName));
         }
- 
-        // assembling
         
-        fullBox.getChildren().addAll(headerBox, rowBox);
-        ((Group) scene.getRoot()).getChildren().addAll(fullBox);
+        windowVBox.getChildren().add(headerHBox);
+        
+        // body
+        
+        rowsVBox.setSpacing(2);
+        bodyScrollContainer.setPadding(new Insets(10, 2, 2, 2));
+        bodyScrollContainer.setMaxHeight(475);
+        bodyScrollContainer.setContent(rowsVBox);
+        windowVBox.getChildren().add(bodyScrollContainer);
+        
+        // all into scene
+        
+        ((Group) scene.getRoot()).getChildren().add(windowVBox);
+
+        newRowBtn.setOnAction((event) -> {
+            HBox newRowHBox = new HBox();
+            newRowHBox.setSpacing(2);
+            for (String columnName : csv.getHeaderRow()) {
+                TextField emptyField = new TextField();
+                emptyField.setPromptText(columnName);
+                newRowHBox.getChildren().add(emptyField);
+            }
+            rowsVBox.getChildren().add(newRowHBox);
+        });
         
         stage.setTitle("CSV Creator v1.0.0 <mazuh@ufrn.edu.br>");
+        stage.setHeight(600);
         stage.setResizable(false);
         stage.setScene(scene);
         stage.show();
